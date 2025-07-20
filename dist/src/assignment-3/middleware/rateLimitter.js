@@ -2,7 +2,7 @@ const rateLimiter = (limit, window) => {
     const requests = {};
     return (req, res, next) => {
         const ip = req.ip;
-        console.log(ip, " -->> This is the of request URL.");
+        // console.log(ip, " -->> This is the of request URL.");
         if (!ip) {
             return res.status(400).json({ message: "Cannot identify IP address" });
         }
@@ -11,6 +11,7 @@ const rateLimiter = (limit, window) => {
             requests[ip] = [];
         }
         requests[ip] = requests[ip].filter((timestamp) => now - timestamp < window);
+        // console.log(requests[ip], "w will get something here !");
         if (requests[ip].length >= limit) {
             return res
                 .status(429)

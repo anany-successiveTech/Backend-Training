@@ -1,0 +1,19 @@
+export const validationRules = {
+    "/register": {
+        firstName: "string",
+        lastName: "string",
+        email: "string",
+        password: "string",
+    },
+    "/check-user": {
+        firstName: "string",
+        lastName: "string",
+        email: "string",
+        password: "string",
+    },
+    "/check-query": {
+        limit: "number",
+        page: "number",
+    },
+};
+//# sourceMappingURL=assign4validation.js.map

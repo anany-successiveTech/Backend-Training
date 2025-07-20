@@ -13,7 +13,6 @@ const createRandomUsers = () => ({
     password: faker.internet.password(),
     gender: faker.person.sexType(),
 });
-// Login Endpoint Controller.
 export const login = (req, res) => {
     try {
         const user = {

@@ -24,7 +24,6 @@ const createRandomUsers = (): RandomUser => ({
   gender: faker.person.sexType(),
 });
 
-// Login Endpoint Controller.
 export const login = (req: Request, res: Response) => {
   try {
     const user: SampleUser = {
