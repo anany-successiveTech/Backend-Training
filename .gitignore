@@ -1,1 +1,6 @@
+# Whatever we write in this file git ignore that and wont push to the remote repository.
+
+# For node modules.
 node_modules/
+# For environment variables.
+.env
