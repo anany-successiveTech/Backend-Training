@@ -2,7 +2,7 @@
 
 import cookieParser from "cookie-parser";
 import express from "express";
-import cors from "cors"
+// import cors from "cors"
 import assignRouter from "./routes/assignmentRoutes.js";
 import errorHandler from "../middleware/errorHandling.js";
 import customHeader from "../middleware/customHeader.js";
@@ -11,7 +11,7 @@ import noCache from "../middleware/clearCach.js";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+// app.use(cors());  Although we are not sending the resuests from the browser 
 app.use(express.json());
 app.use(cookieParser());
 app.use(noCache);
