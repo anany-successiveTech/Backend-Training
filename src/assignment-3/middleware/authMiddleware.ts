@@ -22,7 +22,7 @@ declare global {
 const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
   // console.log(authHeader, "authentication data");
-  
+
   if (
     !authHeader ||
     typeof authHeader !== "string" ||
@@ -38,7 +38,6 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as JwtUserPayload;
     // console.log(decoded, "checking the data");
-    
 
     if (!decoded || !decoded.email) {
       return res
@@ -49,6 +48,7 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
     req.user = decoded;
     next();
   } catch (error) {
+    next(error);
     return res.status(401).json({ message: "Unauthorized: Invalid token" });
   }
 };
