@@ -1,69 +1,46 @@
 import { Request, Response } from "express";
-import User from "../../models/users.js";
+import { StatusCodes } from "http-status-codes";
+import { successResponse, errorResponse } from  "../../utils/responseHandeller"
 
 export const creatUser = (req: Request, res: Response) => {
   try {
     const userData = req.body;
-    return res.status(201).json({
-      message: "User created successfully",
-      user: userData,
-    });
+    return successResponse(res, "User created successfully", userData, StatusCodes.CREATED);
   } catch (error) {
-    return res.status(500).json({
-      message: "Internal server error",
-    });
+    return errorResponse(res, "Internal server error", error, StatusCodes.INTERNAL_SERVER_ERROR);
   }
 };
 
 export const queriedData = (req: Request, res: Response) => {
   const { limit, page } = req.query;
 
-  res.json({
-    message: "Query parameters are valid",
-    limit,
-    page,
-  });
+  return successResponse(
+    res,
+    "Query parameters are valid",
+    { limit: String(limit), page: String(page) }
+  );
 };
 
 export const accessFromLocation = (req: Request, res: Response) => {
-  res.status(200).json({
-    message: "Access granted. You are allowed based on your location.",
-  });
+  return successResponse(res, "Access granted. You are allowed based on your location.");
 };
 
-// Search user Route in the dataBase.
-export const findUser = async (req: Request, res: Response) => {
-  const {email} = req.body
-  const SearchedUser = await User.findOne({
-    email:email
-  })
-  if(SearchedUser){
-    return
-  }
-};
-// User register route.
-export const registerUser = async (req: Request, res: Response) => {
+export const registerUser = (req: Request, res: Response) => {
   try {
-    const user = await User.create(req.body);
-
-    res.status(201).json({
-      message: "User registered successfully",
-      data: user,
-    });
-  } catch (error: any) {
-    if (error.code === 11000) {
-      return res.status(409).json({
-        error: "Email already exists",
-      });
-    }
-
-    return res.status(500).json({
-      error: "Failed to register user",
-      detail: error.message,
-    });
+    const { name, email, password } = req.body;
+    const user = { name, email, password };
+    return successResponse(res, "User registered successfully", user, StatusCodes.CREATED);
+  } catch (error) {
+    return errorResponse(res, "Failed to register user", error, StatusCodes.BAD_REQUEST);
   }
 };
 
 export const loginUser = (req: Request, res: Response) => {
-  res.status(200).json({ message: "Login successful", data: req.body });
+  try {
+    const { email, password } = req.body;
+    const user = { email, password };
+    return successResponse(res, "Login successful", user);
+  } catch (error) {
+    return errorResponse(res, "Login failed", error, StatusCodes.UNAUTHORIZED);
+  }
 };

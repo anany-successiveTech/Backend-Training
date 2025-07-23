@@ -14,7 +14,7 @@ import rateLimiter from "./middleware/rateLimitter.js";
 
 const seedDataRouter = express.Router();
 
-seedDataRouter.post("/login", requestLogger, login);
-seedDataRouter.post("/seedUser", requestLogger,rateLimiter(5, 60000), authMiddleware, seedData); // this will only allow 5 request in 1-min.
+seedDataRouter.post("/login", login);
+seedDataRouter.post("/seedUser", rateLimiter(5, 60000), authMiddleware, seedData); // this will only allow 5 request in 1-min.
 
 export default seedDataRouter;
