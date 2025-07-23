@@ -1,10 +1,15 @@
-import requestIp from "request-ip";
-import geoip from "geoip-lite";
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const request_ip_1 = __importDefault(require("request-ip"));
+const geoip_lite_1 = __importDefault(require("geoip-lite"));
 const validateLocation = (req, res, next) => {
     try {
-        const clientIp = requestIp.getClientIp(req) || "0.0.0.0"; // fallback IP, its a default ip as of my knowledge.
+        const clientIp = request_ip_1.default.getClientIp(req) || "0.0.0.0"; // fallback IP, its a default ip as of my knowledge.
         console.log("Client IP:", clientIp);
-        const geo = geoip.lookup(clientIp);
+        const geo = geoip_lite_1.default.lookup(clientIp);
         console.log("Geo Info:", geo);
         if (!geo || geo.country !== "IN") {
             return res.status(403).json({ error: "Access denied. Location not allowed." });
@@ -16,5 +21,5 @@ const validateLocation = (req, res, next) => {
         res.status(500).json({ error: "Internal Server Error during location validation." });
     }
 };
-export default validateLocation;
+exports.default = validateLocation;
 //# sourceMappingURL=validateGeolocation.js.map

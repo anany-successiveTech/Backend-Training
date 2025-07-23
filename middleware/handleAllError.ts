@@ -1,24 +1,21 @@
 import { NextFunction, Request, Response } from "express";
-import errorMessages from "../utils/errorMessage.js"
+import errorMessages from "../utils/errorMessage.js";
+import { HandleApiError } from "../utils/responseHandler.js";
 
 const handleGlobalError = (
-  err: Error & { status?: number },
+  err: HandleApiError,
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  try{
-    const statusCode = err.status || 500
-    const message = err.message || errorMessages[statusCode] || 'Unexpected error' 
-    return res.status(statusCode).json({
-        success: false,
-        statusCode,
-        message
-    });
-  }catch(error){
-    return 
-  }
-    
+  const statusCode = err.statusCode || 500;
+  const message =
+    err.message || errorMessages[statusCode] || "Unexpected error";
+  return res.status(statusCode).json({
+    success: false,
+    statusCode,
+    message,
+  });
 };
 export default handleGlobalError;
 // Sometime if we don't export the "TypeScript" treated file we'll face ts red squiggly.

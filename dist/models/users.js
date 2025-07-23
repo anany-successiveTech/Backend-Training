@@ -1,5 +1,10 @@
-import mongoose from "mongoose";
-const UserSchema = new mongoose.Schema({
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const mongoose_1 = __importDefault(require("mongoose"));
+const UserSchema = new mongoose_1.default.Schema({
     name: {
         type: String,
         required: true,
@@ -15,6 +20,6 @@ const UserSchema = new mongoose.Schema({
     },
     hobbies: [String],
 });
-const User = mongoose.model("User", UserSchema);
-export default User;
+const User = mongoose_1.default.model("User", UserSchema);
+exports.default = User;
 //# sourceMappingURL=users.js.map

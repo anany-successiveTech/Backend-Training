@@ -1,42 +1,50 @@
-import { StatusCodes } from "http-status-codes";
-import { successResponse, errorResponse } from "../../utils/responseHandler";
-export const creatUser = (req, res) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.loginUser = exports.registerUser = exports.accessFromLocation = exports.queriedData = exports.creatUser = void 0;
+// import { StatusCodes } from "http-status-codes";
+const responseHandler_1 = require("../../utils/responseHandler");
+const creatUser = (req, res, next) => {
     try {
         const userData = req.body;
-        return successResponse(res, "User created successfully", userData, StatusCodes.CREATED);
+        return (0, responseHandler_1.successResponse)(res, "User created successfully", userData, 201);
     }
     catch (error) {
-        return errorResponse(res, "Internal server error", error, StatusCodes.INTERNAL_SERVER_ERROR);
+        next(new responseHandler_1.HandleApiError(500, "User failed"));
     }
 };
-export const queriedData = (req, res) => {
+exports.creatUser = creatUser;
+const queriedData = (req, res) => {
     const { limit, page } = req.query;
-    return successResponse(res, "Query parameters are valid", {
+    return (0, responseHandler_1.successResponse)(res, "Query parameters are valid", {
         limit: String(limit),
         page: String(page),
     });
 };
-export const accessFromLocation = (req, res) => {
-    return successResponse(res, "Access granted. You are allowed based on your location.");
+exports.queriedData = queriedData;
+const accessFromLocation = (req, res) => {
+    return (0, responseHandler_1.successResponse)(res, "Access granted. You are allowed based on your location.");
 };
-export const registerUser = (req, res) => {
+exports.accessFromLocation = accessFromLocation;
+const registerUser = (req, res, next) => {
     try {
         const { name, email, password } = req.body;
         const user = { name, email, password };
-        return successResponse(res, "User registered successfully", user, StatusCodes.CREATED);
+        return (0, responseHandler_1.successResponse)(res, "User registered successfully", user, 201);
     }
     catch (error) {
-        return errorResponse(res, "Failed to register user", error, StatusCodes.BAD_REQUEST);
+        next(new responseHandler_1.HandleApiError(400, "Bad request"));
     }
 };
-export const loginUser = (req, res) => {
+exports.registerUser = registerUser;
+const loginUser = (req, res, next) => {
     try {
         const { email, password } = req.body;
         const user = { email, password };
-        return successResponse(res, "Login successful", user);
+        return (0, responseHandler_1.successResponse)(res, "Login successful", user);
     }
     catch (error) {
-        return errorResponse(res, "Login failed", error, StatusCodes.UNAUTHORIZED);
+        next(new responseHandler_1.HandleApiError(400, "Bad request"));
     }
 };
+exports.loginUser = loginUser;
 //# sourceMappingURL=controller-4.js.map

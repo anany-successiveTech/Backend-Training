@@ -1,9 +1,14 @@
-import validationRules from "../validationRules.js";
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const validationRules_js_1 = __importDefault(require("../validationRules.js"));
 const dynamicValidator = (req, res, next) => {
     try {
         const routePath = req.path;
         // console.log(routePath);
-        const schema = validationRules[routePath];
+        const schema = validationRules_js_1.default[routePath];
         if (!schema) {
             return next();
         }
@@ -20,5 +25,5 @@ const dynamicValidator = (req, res, next) => {
         return res.status(500).json({ error: "Validation middleware error" });
     }
 };
-export default dynamicValidator;
+exports.default = dynamicValidator;
 //# sourceMappingURL=dynamicValidator.js.map

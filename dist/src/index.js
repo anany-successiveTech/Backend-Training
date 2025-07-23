@@ -1,30 +1,35 @@
-import express from "express";
-import mongoose from "mongoose";
-import dotenv from "dotenv";
-import bodyParser from "body-parser";
-import assignRouter from "./routes/assignments.js";
-import customHeader from "../middleware/customHeader.js";
-import noCache from "../middleware/clearCach.js";
-import handleGlobalError from "../middleware/handleAllError.js";
-import errorRouter from "./routes/errorDemo.js";
-import requestLogger from "../middleware/requestLogger.js";
-dotenv.config();
-const app = express();
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const mongoose_1 = __importDefault(require("mongoose"));
+const dotenv_1 = __importDefault(require("dotenv"));
+const body_parser_1 = __importDefault(require("body-parser"));
+const assignments_js_1 = __importDefault(require("./routes/assignments.js"));
+const customHeader_js_1 = __importDefault(require("../middleware/customHeader.js"));
+const clearCach_js_1 = __importDefault(require("../middleware/clearCach.js"));
+const handleAllError_js_1 = __importDefault(require("../middleware/handleAllError.js"));
+const errorDemo_js_1 = __importDefault(require("./routes/errorDemo.js"));
+const requestLogger_js_1 = __importDefault(require("../middleware/requestLogger.js"));
+dotenv_1.default.config();
+const app = (0, express_1.default)();
 const PORT = process.env.PORT || 3000;
 const MONGO_CONNECTION = process.env.MONGODB_CONNECTION_STRING;
 // Middlewares
-app.use(express.json());
+app.use(express_1.default.json());
 // app.use(cookieParser());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(noCache);
-app.use(customHeader("Assignment-app", "Backend-training"));
-app.use(requestLogger);
-app.use("/api/v1", assignRouter);
-app.use("/error-demo", errorRouter);
-app.use(handleGlobalError);
+app.use(body_parser_1.default.json());
+app.use(body_parser_1.default.urlencoded({ extended: true }));
+app.use(clearCach_js_1.default);
+app.use((0, customHeader_js_1.default)("Assignment-app", "Backend-training"));
+app.use(requestLogger_js_1.default);
+app.use("/api/v1", assignments_js_1.default);
+app.use("/error-demo", errorDemo_js_1.default);
+app.use(handleAllError_js_1.default);
 // MongoDB Connection Logic
-mongoose
+mongoose_1.default
     .connect(MONGO_CONNECTION)
     .then(() => {
     console.log(" MongoDB connection successfull");

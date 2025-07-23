@@ -1,8 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const customHeader = (headerName, headerValue) => {
     return (req, res, next) => {
         res.setHeader(headerName, headerValue);
         next();
     };
 };
-export default customHeader;
+exports.default = customHeader;
 //# sourceMappingURL=customHeader.js.map

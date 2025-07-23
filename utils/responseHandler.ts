@@ -1,11 +1,18 @@
 import { Response } from "express";
-import { StatusCodes } from "http-status-codes";
+
+export class HandleApiResponse extends Response {
+  statusCode: number;
+  constructor(status: number, message: string) {
+    super(message);
+    this.statusCode = status;
+  }
+}
 
 export const successResponse = (
   res: Response,
   message: string,
   data: object = {},
-  statusCode: number = StatusCodes.OK
+  statusCode: number = 200
 ) => {
   return res.status(statusCode).json({
     success: true,
@@ -14,19 +21,27 @@ export const successResponse = (
   });
 };
 
+export class HandleApiError extends Error {
+  statusCode: number;
+  constructor(status: number, message: string) {
+    super(message);
+    this.statusCode = status;
+  }
+}
+
 export const errorResponse = (
   res: Response,
   message: string,
-  error: any = {}, // Here i have to give any, it was creating bugs with some controllers.
-  statusCode: number = StatusCodes.INTERNAL_SERVER_ERROR
+  error: HandleApiError,
+  statusCode: number = error.statusCode || 500
 ) => {
-  const errMsg = error?.message || String(error);
+  const errorMessage = error?.message || String(error);
 
   return res.status(statusCode).json({
     success: false,
     message,
     error: {
-      message: errMsg,
+      message: errorMessage,
     },
   });
 };

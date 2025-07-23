@@ -19,38 +19,38 @@ declare global {
   }
 }
 
-const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
-  const authHeader = req.headers.authorization;
-  // console.log(authHeader, "authentication data");
+export class AuthMiddleware {
+  authenticateUser = (req: Request, res: Response, next: NextFunction) => {
+    const authHeader = req.headers.authorization;
+    // console.log(authHeader, "authentication data");
 
-  if (
-    !authHeader ||
-    typeof authHeader !== "string" ||
-    !authHeader.startsWith("Bearer ")
-  ) {
-    return res
-      .status(401)
-      .json({ message: "Unauthorized: Missing or malformed token" });
-  }
-
-  const token = authHeader.split(" ")[1];
-
-  try {
-    const decoded = jwt.verify(token, JWT_SECRET) as JwtUserPayload;
-    // console.log(decoded, "checking the data");
-
-    if (!decoded || !decoded.email) {
+    if (
+      !authHeader ||
+      typeof authHeader !== "string" ||
+      !authHeader.startsWith("Bearer ")
+    ) {
       return res
         .status(401)
-        .json({ message: "Unauthorized: Invalid token structure" });
+        .json({ message: "Unauthorized: Missing or malformed token" });
     }
 
-    req.user = decoded;
-    next();
-  } catch (error) {
-    next(error);
-    return res.status(401).json({ message: "Unauthorized: Invalid token" });
-  }
-};
+    const token = authHeader.split(" ")[1];
 
-export default authMiddleware;
+    try {
+      const decoded = jwt.verify(token, JWT_SECRET) as JwtUserPayload;
+      // console.log(decoded, "checking the data");
+
+      if (!decoded || !decoded.email) {
+        return res
+          .status(401)
+          .json({ message: "Unauthorized: Invalid token structure" });
+      }
+
+      req.user = decoded;
+      next();
+    } catch (error) {
+      next(error);
+      return res.status(401).json({ message: "Unauthorized: Invalid token" });
+    }
+  };
+}

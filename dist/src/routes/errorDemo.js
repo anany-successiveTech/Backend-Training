@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -7,8 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import express from "express";
-const errorRouter = express.Router();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const errorRouter = express_1.default.Router();
 errorRouter.get("/error-demo", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield new Promise((_, reject) => setTimeout(() => reject(new Error("Intentional async error!")), 500));
@@ -19,5 +24,5 @@ errorRouter.get("/error-demo", (req, res, next) => __awaiter(void 0, void 0, voi
         // which will gonna show the above formate.
     }
 }));
-export default errorRouter;
+exports.default = errorRouter;
 //# sourceMappingURL=errorDemo.js.map

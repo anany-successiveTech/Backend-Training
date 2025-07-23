@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const validateQuery = (req, res, next) => {
     const { limit, page } = req.query;
     if (!limit || !page) {
@@ -13,5 +15,5 @@ const validateQuery = (req, res, next) => {
     }
     next();
 };
-export default validateQuery;
+exports.default = validateQuery;
 //# sourceMappingURL=validateQuery.js.map

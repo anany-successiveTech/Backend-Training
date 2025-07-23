@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const errorMessages = {
     // 200 Series – Success
     200: "OK - Request succeeded",
@@ -18,5 +20,5 @@ const errorMessages = {
     502: "Bad Gateway - Invalid response from upstream server",
     503: "Service Unavailable - Server is overloaded or down",
 };
-export default errorMessages;
+exports.default = errorMessages;
 //# sourceMappingURL=errorMessage.js.map

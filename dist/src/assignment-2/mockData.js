@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const mockDataList = [
     {
         id: 1,
@@ -77,5 +79,5 @@ const mockDataList = [
         gender: "Male",
     },
 ];
-export default mockDataList;
+exports.default = mockDataList;
 //# sourceMappingURL=mockData.js.map

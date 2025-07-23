@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const validateRequest = (schema) => {
     return (req, res, next) => {
         const { error } = schema.validate(req.body);
@@ -10,5 +12,5 @@ const validateRequest = (schema) => {
         next();
     };
 };
-export default validateRequest;
+exports.default = validateRequest;
 //# sourceMappingURL=validateUser.js.map

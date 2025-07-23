@@ -1,32 +1,16 @@
-const rateLimiter = (limit, window) => {
-    const requests = {};
-    return (req, res, next) => {
-        try {
-            const ip = req.ip;
-            if (!ip) {
-                return res.status(400).json({ message: "Cannot identify IP address" });
-            }
-            const now = Date.now();
-            if (!requests[ip]) {
-                requests[ip] = [];
-            }
-            requests[ip] = requests[ip].filter((timestamp) => now - timestamp < window);
-            if (requests[ip].length >= limit) {
-                return res
-                    .status(429)
-                    .json({ message: "Too many requests. Please try again later." });
-            }
-            requests[ip].push(now);
-            next();
-        }
-        catch (error) {
-            console.error("Rate Limiter Error:", error.message);
-            next(error);
-            return res.status(500).json({
-                message: "Internal server error in rate limiter",
-            });
-        }
-    };
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_rate_limit_1 = require("express-rate-limit");
+const rateLimitMiddleware = (0, express_rate_limit_1.rateLimit)({
+    windowMs: 60 * 1000, // 1 minute me it will allow 100 requests only.
+    limit: 100,
+    message: {
+        success: false,
+        message: "Too many requests, please try again later.",
+    },
+});
+const applyRateLimiter = (req, res, next) => {
+    return rateLimitMiddleware(req, res, next);
 };
-export default rateLimiter;
+exports.default = applyRateLimiter;
 //# sourceMappingURL=rateLimitter.js.map

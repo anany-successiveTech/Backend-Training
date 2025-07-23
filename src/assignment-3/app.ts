@@ -7,14 +7,23 @@
 // 11.Write a series of middleware functions and chain them together to demonstrate how multiple middleware can be applied to a single route.
 
 import express from "express";
-import { login, seedData } from "./controller-3.js";
-import requestLogger from "../../middleware/requestLogger.js";
-import authMiddleware from "./middleware/authMiddleware.js";
-import rateLimiter from "./middleware/rateLimitter.js";
+import { AuthController, DataController } from "./controller-3.js";
+import { AuthMiddleware } from "./middleware/authMiddleware.js";
+import { RateLimiter } from "./middleware/rateLimitter.js";
+
 
 const seedDataRouter = express.Router();
+const authController = new AuthController();
+const dataController = new DataController();
+const authMiddleware = new AuthMiddleware();
+const requestRatelimiter = new RateLimiter();
 
-seedDataRouter.post("/login", login);
-seedDataRouter.post("/seedUser", rateLimiter(5, 60000), authMiddleware, seedData); // this will only allow 5 request in 1-min.
+seedDataRouter.post("/login", authController.login);
+seedDataRouter.post(
+  "/seedUser",
+  requestRatelimiter.applyRateLimiter ,
+  authMiddleware.authenticateUser,
+  dataController.seedData
+); // this will only allow 5 request in 1-min.
 
 export default seedDataRouter;
