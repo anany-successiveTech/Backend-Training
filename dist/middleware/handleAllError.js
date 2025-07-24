@@ -3,10 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const errorMessage_js_1 = __importDefault(require("../utils/errorMessage.js"));
+const errorMessage_1 = __importDefault(require("../utils/errorMessage"));
 const handleGlobalError = (err, req, res, next) => {
     const statusCode = err.statusCode || 500;
-    const message = err.message || errorMessage_js_1.default[statusCode] || "Unexpected error";
+    const message = err.message || errorMessage_1.default[statusCode] || "Unexpected error";
+    console.error(err.stack);
     return res.status(statusCode).json({
         success: false,
         statusCode,

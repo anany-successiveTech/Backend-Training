@@ -7,9 +7,9 @@
 // 11.Write a series of middleware functions and chain them together to demonstrate how multiple middleware can be applied to a single route.
 
 import express from "express";
-import { AuthController, DataController } from "./controller-3.js";
-import { AuthMiddleware } from "./middleware/authMiddleware.js";
-import { RateLimiter } from "./middleware/rateLimitter.js";
+import { AuthController, DataController } from "./controller-3";
+import { AuthMiddleware } from "./middleware/authMiddleware";
+import { RateLimiter } from "./middleware/rateLimitter";
 
 
 const seedDataRouter = express.Router();

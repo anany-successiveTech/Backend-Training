@@ -2,11 +2,11 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
-import assignRouter from "./routes/assignments.js";
-import customHeader from "./middleware/customHeader.js";
-import handleGlobalError from "./middleware/handleAllError.js";
-import errorRouter from "./routes/errorDemo.js";
-import requestLogger from "./middleware/requestLogger.js";
+import assignRouter from "./routes/assignments";
+import customHeader from "./middleware/customHeader";
+import handleGlobalError from "./middleware/handleAllError";
+import errorRouter from "./routes/errorDemo";
+import requestLogger from "./middleware/requestLogger";
 dotenv.config();
 
 const app = express();
