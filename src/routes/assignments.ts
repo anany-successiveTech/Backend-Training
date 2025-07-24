@@ -1,0 +1,18 @@
+import express from "express";
+import assignmentTwoRouter from "../assignment-2/app";
+import assignmentThreeRouter from "../assignment-3/app";
+import assignmentFourRouter from "../assignment-4/app";
+import assignmentEightRouter from "../assignment-8/app";
+import assignmentNineRouter from "../assignment-9/app"
+
+// There is nothing in assignment-1 which will requires routing.
+
+const assignRouter = express.Router();
+
+assignRouter.use("/assignment-2", assignmentTwoRouter);
+assignRouter.use("/assignment-3", assignmentThreeRouter);
+assignRouter.use("/assignment-4", assignmentFourRouter);
+assignRouter.use("/assignment-8", assignmentEightRouter);
+assignRouter.use("/assignment-9", assignmentNineRouter);
+
+export default assignRouter;
