@@ -1,13 +1,27 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LoginUserController = exports.RegisterUserController = exports.AccessFromLocationController = exports.QueriedDataController = exports.CheckUserController = void 0;
-const responseHandler_1 = require("../../utils/responseHandler");
+const responseHandler_1 = require("../utils/responseHandler");
+const userServices_1 = require("../service/assignment4/userServices");
+// export const successResponse = (
+//   res: Response,
+//   message: string,
+//   data: object = {},
+//   statusCode: number = 200
+// ) => {
+//   return res.status(statusCode).json({
+//     success: true,
+//     message,
+//     data,
+//   });
+// };
 class CheckUserController {
     constructor() {
         this.checkUser = (req, res, next) => {
             try {
                 const userData = req.body;
-                return (0, responseHandler_1.successResponse)(res, "User check successful", userData, 200);
+                const result = userServices_1.UserService.checkUser(userData);
+                return (0, responseHandler_1.successResponse)(res, "User check successful", result, 200);
             }
             catch (error) {
                 next(new responseHandler_1.HandleApiError(500, "User check failed"));
@@ -20,15 +34,15 @@ class QueriedDataController {
     constructor() {
         this.queriedData = (req, res, next) => {
             try {
-                const { limit, page } = req.query;
-                return (0, responseHandler_1.successResponse)(res, "Query parameters are valid", {
-                    limit: String(limit),
-                    page: String(page),
-                });
+                const limit = Number(req.query.limit);
+                const page = Number(req.query.page);
+                const result = userServices_1.UserService.handleQueryParams(limit, page);
+                return (0, responseHandler_1.successResponse)(res, "Query parameters are valid", result);
             }
             catch (error) {
                 next(new responseHandler_1.HandleApiError(400, "Invalid query parameters"));
             }
+            //  console.log(`ending the respones`);
         };
     }
 }
@@ -37,7 +51,8 @@ class AccessFromLocationController {
     constructor() {
         this.accessFromLocation = (req, res, next) => {
             try {
-                return (0, responseHandler_1.successResponse)(res, "Access granted. You are allowed based on your location.");
+                const result = userServices_1.UserService.checkLocationAccess();
+                return (0, responseHandler_1.successResponse)(res, result, { name: "Anany", age: 23, currentAddress: "noida" });
             }
             catch (error) {
                 next(new responseHandler_1.HandleApiError(500, "Failed to check location access"));
@@ -51,8 +66,8 @@ class RegisterUserController {
         this.registerUser = (req, res, next) => {
             try {
                 const { name, email, password } = req.body;
-                const user = { name, email, password };
-                return (0, responseHandler_1.successResponse)(res, "User registered successfully", user, 201);
+                const result = userServices_1.UserService.registerUser(name, email, password);
+                return (0, responseHandler_1.successResponse)(res, "User registered successfully", result, 201);
             }
             catch (error) {
                 next(new responseHandler_1.HandleApiError(400, "User registration failed"));
@@ -66,8 +81,8 @@ class LoginUserController {
         this.loginUser = (req, res, next) => {
             try {
                 const { email, password } = req.body;
-                const user = { email, password };
-                return (0, responseHandler_1.successResponse)(res, "Login successful", user);
+                const result = userServices_1.UserService.loginUser(email, password);
+                return (0, responseHandler_1.successResponse)(res, "Login successful", result);
             }
             catch (error) {
                 next(new responseHandler_1.HandleApiError(400, "Login failed"));

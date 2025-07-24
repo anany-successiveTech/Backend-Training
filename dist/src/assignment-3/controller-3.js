@@ -4,41 +4,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DataController = exports.AuthController = void 0;
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const faker_1 = require("@faker-js/faker");
 const dotenv_1 = __importDefault(require("dotenv"));
 const http_status_codes_1 = require("http-status-codes");
-const responseHandler_1 = require("../../utils/responseHandler");
+const responseHandler_1 = require("../utils/responseHandler");
+const userDataService_1 = require("../service/assignment3/userDataService");
 dotenv_1.default.config();
 const JWT_SECRET = process.env.JWT_SECRET;
-const createRandomUsers = () => ({
-    id: faker_1.faker.string.uuid(),
-    firstName: faker_1.faker.person.firstName(),
-    lastName: faker_1.faker.person.lastName(),
-    email: faker_1.faker.internet.email(),
-    password: faker_1.faker.internet.password(),
-    gender: faker_1.faker.person.sexType(),
-});
 class AuthController {
     constructor() {
         this.login = (req, res, next) => {
             try {
-                const user = {
-                    id: 1,
-                    email: "ananymore45@gmail.com",
-                    password: "12345678",
-                };
                 const { email, password } = req.body;
                 if (!email || !password) {
-                    next(new responseHandler_1.HandleApiError(400, "Inputs are not valide"));
+                    return next(new responseHandler_1.HandleApiError(400, "Inputs are not valid"));
                 }
-                if (email !== user.email || password !== user.password) {
-                    return next(new responseHandler_1.HandleApiError(401, "Unathorized"));
+                const isValid = userDataService_1.AuthService.validateUserCredentials(email, password);
+                if (!isValid) {
+                    return next(new responseHandler_1.HandleApiError(401, "Unauthorized"));
                 }
-                const token = jsonwebtoken_1.default.sign({ id: user.id, email: user.email }, JWT_SECRET, {
-                    expiresIn: "30min",
-                });
-                return (0, responseHandler_1.successResponse)(res, "Login successful", { token }, 200);
+                const token = userDataService_1.AuthService.generateToken(JWT_SECRET);
+                return (0, responseHandler_1.successResponse)(res, "Login successful", { token }, http_status_codes_1.StatusCodes.OK);
             }
             catch (error) {
                 console.error("Login Error:", error);
@@ -54,24 +39,18 @@ class DataController {
             try {
                 const { generateLimit } = req.body;
                 if (!generateLimit) {
-                    next(new responseHandler_1.HandleApiError(http_status_codes_1.StatusCodes.BAD_REQUEST, ""));
+                    return next(new responseHandler_1.HandleApiError(http_status_codes_1.StatusCodes.BAD_REQUEST, "Missing limit"));
                 }
                 const limit = Number(generateLimit);
                 if (isNaN(limit) || limit < 1 || limit > 100) {
-                    next(new responseHandler_1.HandleApiError(400, "Send complete data input!"));
+                    return next(new responseHandler_1.HandleApiError(400, "Send valid input between 1 to 100"));
                 }
-                const randomUsers = faker_1.faker.helpers.multiple(createRandomUsers, {
-                    count: limit,
-                });
-                const result = {
-                    message: "Data generated successfully!",
-                    data: randomUsers,
-                };
+                const result = userDataService_1.DataService.generateRandomUsers(limit);
                 return (0, responseHandler_1.successResponse)(res, result.message, result, http_status_codes_1.StatusCodes.OK);
             }
             catch (error) {
                 console.error("Seeding Error:", error);
-                next(new responseHandler_1.HandleApiError(500, "Internal server error"));
+                next(new responseHandler_1.HandleApiError(500, "Internal Server Error"));
             }
         };
     }

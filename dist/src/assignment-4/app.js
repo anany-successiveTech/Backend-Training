@@ -14,7 +14,17 @@ const controller_4_js_1 = require("./controller-4.js");
 const validateGeolocation_js_1 = require("./middleware/validateGeolocation.js");
 const dynamicValidator_js_1 = require("./middleware/dynamicValidator.js");
 const validateQuery_js_1 = require("./middleware/validateQuery.js");
+const rateLimitter_js_1 = require("../assignment-3/middleware/rateLimitter.js");
 const validateRouter = express_1.default.Router();
+/*
+    Structure ->>>
+    router.(
+    "end-point",
+    extra-checks ->> (rate-limitting, requestLogging from index.ts, etc.)
+     Middleware,
+     Controller
+    )
+*/
 const loginUserController = new controller_4_js_1.LoginUserController();
 const checkUserController = new controller_4_js_1.CheckUserController();
 const accessFromLocationController = new controller_4_js_1.AccessFromLocationController();
@@ -24,10 +34,11 @@ const validateLocation = new validateGeolocation_js_1.ValidateLocation();
 const dynamically = new dynamicValidator_js_1.Dynamically();
 const validateQuery = new validateQuery_js_1.ValidateIncomingQuery();
 const validateUser = new validateUser_js_1.ValidateIncomingUser();
+const rateLimitting = new rateLimitter_js_1.RateLimiter();
 validateRouter.post("/check-user", validateUser.validateRequest(userSchema_js_1.userSchema), checkUserController.checkUser);
 validateRouter.get("/check-location", validateLocation.validateLocation, accessFromLocationController.accessFromLocation);
 validateRouter.get("/check-query", validateQuery.validateQuery, queriedDataController.queriedData);
 validateRouter.post("/register", dynamically.dynamicValidator, registerUserController.registerUser);
-validateRouter.post("/check-login", dynamically.dynamicValidator, loginUserController.loginUser);
+validateRouter.post("/check-login", rateLimitting.applyRateLimiter, dynamically.dynamicValidator, loginUserController.loginUser);
 exports.default = validateRouter;
 //# sourceMappingURL=app.js.map

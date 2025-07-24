@@ -10,10 +10,10 @@ class ValidateLocation {
     constructor() {
         this.validateLocation = (req, res, next) => {
             try {
-                const clientIp = request_ip_1.default.getClientIp(req) || "0.0.0.0"; // fallback IP, its a default ip as of my knowledge.
-                console.log("Client IP:", clientIp);
+                const clientIp = request_ip_1.default.getClientIp(req) || "0.0.0.0";
+                // console.log("Client IP:", clientIp);
                 const geo = geoip_lite_1.default.lookup(clientIp);
-                console.log("Geo Info:", geo);
+                // console.log("Geo Info:", geo);
                 if (!geo || geo.country !== "IN") {
                     return res
                         .status(403)

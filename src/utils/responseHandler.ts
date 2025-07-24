@@ -35,7 +35,7 @@ export const errorResponse = (
   error: HandleApiError,
   statusCode: number = error.statusCode || 500
 ) => {
-  const errorMessage = error?.message || String(error);
+  const errorMessage = error?.message || String(error); // If there is an error it will return error, but it there is not error then it will return "undefined".
 
   return res.status(statusCode).json({
     success: false,

@@ -16,8 +16,19 @@ import {
 import { ValidateLocation } from "./middleware/validateGeolocation.js";
 import { Dynamically } from "./middleware/dynamicValidator.js";
 import { ValidateIncomingQuery } from "./middleware/validateQuery.js";
+import { RateLimiter } from "../assignment-3/middleware/rateLimitter.js";
 
 const validateRouter = express.Router();
+
+/*
+    Structure ->>>
+    router.(
+    "end-point",
+    extra-checks ->> (rate-limitting, requestLogging from index.ts, etc.)
+     Middleware,
+     Controller
+    )
+*/
 
 const loginUserController = new LoginUserController();
 const checkUserController = new CheckUserController();
@@ -29,6 +40,8 @@ const validateLocation = new ValidateLocation();
 const dynamically = new Dynamically();
 const validateQuery = new ValidateIncomingQuery();
 const validateUser = new ValidateIncomingUser();
+
+const rateLimitting = new RateLimiter();
 
 validateRouter.post(
   "/check-user",
@@ -52,6 +65,7 @@ validateRouter.post(
 );
 validateRouter.post(
   "/check-login",
+  rateLimitting.applyRateLimiter,
   dynamically.dynamicValidator,
   loginUserController.loginUser
 );

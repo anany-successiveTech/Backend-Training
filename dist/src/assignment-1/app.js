@@ -9,7 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // |-- lib/
 // |   |-- math.js
 // 11. Using the Node.js `fs` module, save the aforementioned solution to a CSV file in the following manner
-const math_js_1 = require("../../lib/math.js");
+const math_1 = require("../lib/math");
 const readline_1 = __importDefault(require("readline"));
 const fs_1 = __importDefault(require("fs"));
 const readLine = readline_1.default.createInterface({
@@ -20,12 +20,12 @@ readLine.question("Enter the first number: ", (firstInput) => {
     const num1 = Number(firstInput);
     readLine.question("Enter the second number: ", (secondInput) => {
         const num2 = Number(secondInput);
-        const addResult = (0, math_js_1.add)(num1, num2);
-        const subResult = (0, math_js_1.sub)(num1, num2);
-        const multResult = (0, math_js_1.mult)(num1, num2);
+        const addResult = (0, math_1.add)(num1, num2);
+        const subResult = (0, math_1.sub)(num1, num2);
+        const multResult = (0, math_1.mult)(num1, num2);
         let divResult = "Cannot divide by 0";
         if (num2 !== 0) {
-            divResult = (0, math_js_1.div)(num1, num2);
+            divResult = (0, math_1.div)(num1, num2);
         }
         console.log(`Add: ${addResult}`);
         console.log(`Sub: ${subResult}`);

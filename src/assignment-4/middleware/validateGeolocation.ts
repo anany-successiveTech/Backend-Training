@@ -5,11 +5,11 @@ import geoip from "geoip-lite";
 export class ValidateLocation {
   validateLocation = (req: Request, res: Response, next: NextFunction) => {
     try {
-      const clientIp = requestIp.getClientIp(req) || "0.0.0.0"; // fallback IP, its a default ip as of my knowledge.
-      console.log("Client IP:", clientIp);
+      const clientIp = requestIp.getClientIp(req) || "0.0.0.0";
+      // console.log("Client IP:", clientIp);
 
       const geo = geoip.lookup(clientIp);
-      console.log("Geo Info:", geo);
+      // console.log("Geo Info:", geo);
 
       if (!geo || geo.country !== "IN") {
         return res
