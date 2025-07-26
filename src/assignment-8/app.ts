@@ -6,9 +6,10 @@
 
 import express from "express";
 import { CountryDataSeeder } from "./controller8";
+import { authenticationChecker } from "../middleware/authentication";
 const countryRouter = express.Router();
 
 const createCountry = new CountryDataSeeder();
 
-countryRouter.post("/seedCountry", createCountry.seedCountry);
+countryRouter.post("/seedCountry",authenticationChecker, createCountry.seedCountry);
 export default countryRouter;

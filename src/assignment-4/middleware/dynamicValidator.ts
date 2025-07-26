@@ -5,7 +5,7 @@ export class Dynamically {
   dynamicValidator = (req: Request, res: Response, next: NextFunction) => {
     try {
       const routePath = req.path;
-      // console.log(routePath);
+      console.log("Route path ->>>>>>>>>>>>>>",routePath);
 
       const schema = validationRules[routePath];
 
@@ -17,8 +17,7 @@ export class Dynamically {
       // console.log(error);
 
       if (error) {
-        console.log(error.message, "some error");
-
+        // console.log(error.message, "some error");
         return res.status(400).json({ error: error.message });
       }
 

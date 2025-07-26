@@ -6,13 +6,7 @@
 import express from "express";
 import { userSchema } from "./userSchema";
 import { ValidateIncomingUser } from "./middleware/validateUser";
-import {
-  LoginUserController,
-  RegisterUserController,
-  AccessFromLocationController,
-  QueriedDataController,
-  CheckUserController,
-} from "./controller-4";
+import  UserMethods  from "./controller-4"
 import { ValidateLocation } from "./middleware/validateGeolocation";
 import { Dynamically } from "./middleware/dynamicValidator";
 import { ValidateIncomingQuery } from "./middleware/validateQuery";
@@ -30,12 +24,6 @@ const validateRouter = express.Router();
     )
 */
 
-const loginUserController = new LoginUserController();
-const checkUserController = new CheckUserController();
-const accessFromLocationController = new AccessFromLocationController();
-const registerUserController = new RegisterUserController();
-const queriedDataController = new QueriedDataController();
-
 const validateLocation = new ValidateLocation();
 const dynamically = new Dynamically();
 const validateQuery = new ValidateIncomingQuery();
@@ -46,28 +34,28 @@ const rateLimitting = new RateLimiter();
 validateRouter.post(
   "/check-user",
   validateUser.validateRequest(userSchema),
-  checkUserController.checkUser
+  UserMethods.checkUser
 );
 validateRouter.get(
   "/check-location",
   validateLocation.validateLocation,
-  accessFromLocationController.accessFromLocation
+  UserMethods.accessFromLocation
 );
 validateRouter.get(
   "/check-query",
   validateQuery.validateQuery,
-  queriedDataController.queriedData
+  UserMethods.queriedData
 );
 validateRouter.post(
   "/register",
   dynamically.dynamicValidator,
-  registerUserController.registerUser
+  UserMethods.registerUser
 );
 validateRouter.post(
   "/check-login",
   rateLimitting.applyRateLimiter,
   dynamically.dynamicValidator,
-  loginUserController.loginUser
+  UserMethods.loginUser
 );
 
 export default validateRouter;

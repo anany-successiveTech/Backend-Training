@@ -24,6 +24,7 @@
     "@types/cookie-parser": "^1.4.9",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/lodash": "^4.17.20",
+    "bcrypt": "^6.0.0",
     "body-parser": "^2.2.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
@@ -42,6 +43,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^9.9.0",
+    "@types/bcrypt": "^6.0.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/express-rate-limit": "^5.1.3",

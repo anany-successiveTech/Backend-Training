@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { CountrySeeder } from "../service/assignment8/countrySeeder";
+import  CountrySeeder  from "../service/assignment8/countrySeeder";
 import { HandleApiError, successResponse } from "../utils/responseHandler";
 
 export class CountryDataSeeder {
@@ -9,7 +9,7 @@ export class CountryDataSeeder {
       const countryList = req.body;
       console.log(countryList, "this is countries");
       
-      const result = await CountrySeeder.seedCountry(countryList);
+      const result = CountrySeeder.seedCountry;
       return successResponse(res, "Countries data created successfully !", result, 200)
     } catch (error) {
       console.log(error);
