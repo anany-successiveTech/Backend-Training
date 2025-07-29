@@ -8,9 +8,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CountryDataSeeder = void 0;
-const countrySeeder_1 = require("../service/assignment8/countrySeeder");
+const countrySeeder_1 = __importDefault(require("../service/assignment8/countrySeeder"));
 const responseHandler_1 = require("../utils/responseHandler");
 class CountryDataSeeder {
     constructor() {
@@ -18,7 +20,7 @@ class CountryDataSeeder {
             try {
                 const countryList = req.body;
                 console.log(countryList, "this is countries");
-                const result = yield countrySeeder_1.CountrySeeder.seedCountry(countryList);
+                const result = countrySeeder_1.default.seedCountry;
                 return (0, responseHandler_1.successResponse)(res, "Countries data created successfully !", result, 200);
             }
             catch (error) {
@@ -28,5 +30,6 @@ class CountryDataSeeder {
         });
     }
 }
-exports.CountryDataSeeder = CountryDataSeeder;
+const CountryData = new CountryDataSeeder();
+exports.default = CountryData;
 //# sourceMappingURL=controller8.js.map

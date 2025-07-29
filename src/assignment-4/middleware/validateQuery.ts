@@ -6,7 +6,7 @@ export class ValidateIncomingQuery {
     // console.log(`reached at the middleware!`);
 
     const { limit, page } = req.query;
-    console.log(limit, page);
+    // console.log(limit, page);
 
     if (!limit || !page) {
       return res.status(400).json({

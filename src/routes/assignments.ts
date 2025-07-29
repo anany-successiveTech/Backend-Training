@@ -4,7 +4,8 @@ import assignmentThreeRouter from "../assignment-3/app";
 import assignmentFourRouter from "../assignment-4/app";
 import assignmentEightRouter from "../assignment-8/app";
 import assignmentNineRouter from "../assignment-9/app";
-import assignmentTenRouter from "../assignment-10/app"
+import assignmentTenRouter from "../assignment-10/app";
+import assignmentElevenRouter from "../assignment-11/app";
 
 // There is nothing in assignment-1 which will requires routing.
 
@@ -16,5 +17,6 @@ assignRouter.use("/assignment-4", assignmentFourRouter);
 assignRouter.use("/assignment-8", assignmentEightRouter);
 assignRouter.use("/assignment-9", assignmentNineRouter);
 assignRouter.use("/assignment-10", assignmentTenRouter);
+assignRouter.use("/assignment-11", assignmentElevenRouter);
 
 export default assignRouter;

@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import  CountrySeeder  from "../service/assignment8/countrySeeder";
 import { HandleApiError, successResponse } from "../utils/responseHandler";
 
-export class CountryDataSeeder {
+ class CountryDataSeeder {
   seedCountry = async (req: Request, res: Response, next: NextFunction) => {
     try {
 
@@ -17,3 +17,5 @@ export class CountryDataSeeder {
     }
   };
 }
+const CountryData = new CountryDataSeeder();
+export default CountryData;

@@ -6,7 +6,7 @@ class ValidateIncomingQuery {
         this.validateQuery = (req, res, next) => {
             // console.log(`reached at the middleware!`);
             const { limit, page } = req.query;
-            console.log(limit, page);
+            // console.log(limit, page);
             if (!limit || !page) {
                 return res.status(400).json({
                     error: "Please provide 'limit' and 'page' query in parameters.",

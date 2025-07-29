@@ -7,7 +7,6 @@
 import express from "express";
 import { Dynamically } from "../assignment-4/middleware/dynamicValidator";
 import handleUser from "./controller-10";
-import { authenticationChecker } from "../middleware/authentication";
 
 const dynamically = new Dynamically();
 const userRouter = express.Router();

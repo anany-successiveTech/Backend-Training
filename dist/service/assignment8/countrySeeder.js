@@ -11,20 +11,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CountrySeeder = void 0;
 const countries_1 = __importDefault(require("../../models/countries"));
 class CountrySeeder {
+    constructor() {
+        this.seedCountry = (reqdata) => __awaiter(this, void 0, void 0, function* () {
+            const contryData = yield countries_1.default.create(reqdata);
+            return {
+                status: "country data created",
+                countries: "randomly added",
+                data: contryData,
+            };
+        });
+    }
 }
-exports.CountrySeeder = CountrySeeder;
-_a = CountrySeeder;
-CountrySeeder.seedCountry = (reqdata) => __awaiter(void 0, void 0, void 0, function* () {
-    const contryData = yield countries_1.default.create(reqdata);
-    return {
-        status: "country data created",
-        countries: "randomly added",
-        data: contryData
-    };
-});
+const seedCountries = new CountrySeeder();
+exports.default = seedCountries;
 //# sourceMappingURL=countrySeeder.js.map

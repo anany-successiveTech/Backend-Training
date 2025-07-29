@@ -18,4 +18,5 @@ exports.default = handleGlobalError;
 // Sometime if we don't export the "TypeScript" treated file we'll face ts red squiggly.
 // Like here i have already write something : Record<number, string>  to "errorMessage" coming from utils.
 // next(err) pass error in just previous middleware
+// here we don't need to call "next()" because error checking cycle is ending here.
 //# sourceMappingURL=handleAllError.js.map

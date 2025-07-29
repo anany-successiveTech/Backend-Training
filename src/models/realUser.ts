@@ -1,29 +1,19 @@
+import mongoose, { Schema } from "mongoose";
+enum UserRole {
+  Admin = "admin",
+  Support = "support",
+  User = "user",
+}
 
-
-import mongoose, { Schema, Document } from "mongoose";
-
-export interface IUser extends Document {
+export interface IUser {
   email: string;
   password: string;
   firstName: string;
   lastName: string;
+  role: string;
 }
 
 const userSchema: Schema<IUser> = new Schema({
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
-    lowercase: true,
-    minLength: 3,
-    maxLength: 30,
-  },
-  password: {
-    type: String,
-    required: true,
-    maxLength: 70,
-  },
   firstName: {
     type: String,
     required: true,
@@ -36,6 +26,29 @@ const userSchema: Schema<IUser> = new Schema({
     trim: true,
     maxLength: 50,
   },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+    minLength: 3,
+    maxLength: 30,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  role: {
+    type: String,
+    enum: ["admin", "user", "support"], // Found this syntax on artical(devCommunity);
+    lowercase: true,
+    required: true,
+  },
+});
+
+userSchema.pre("save", async function (next) {
+  this.email = this.email.toLowerCase();
+  next();
 });
 
 const User = mongoose.model<IUser>("User", userSchema);

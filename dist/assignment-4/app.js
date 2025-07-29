@@ -10,7 +10,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const userSchema_1 = require("./userSchema");
 const validateUser_1 = require("./middleware/validateUser");
-const controller_4_1 = require("./controller-4");
+const controller_4_1 = __importDefault(require("./controller-4"));
 const validateGeolocation_1 = require("./middleware/validateGeolocation");
 const dynamicValidator_1 = require("./middleware/dynamicValidator");
 const validateQuery_1 = require("./middleware/validateQuery");
@@ -25,20 +25,15 @@ const validateRouter = express_1.default.Router();
      Controller
     )
 */
-const loginUserController = new controller_4_1.LoginUserController();
-const checkUserController = new controller_4_1.CheckUserController();
-const accessFromLocationController = new controller_4_1.AccessFromLocationController();
-const registerUserController = new controller_4_1.RegisterUserController();
-const queriedDataController = new controller_4_1.QueriedDataController();
 const validateLocation = new validateGeolocation_1.ValidateLocation();
 const dynamically = new dynamicValidator_1.Dynamically();
 const validateQuery = new validateQuery_1.ValidateIncomingQuery();
 const validateUser = new validateUser_1.ValidateIncomingUser();
 const rateLimitting = new rateLimitter_1.RateLimiter();
-validateRouter.post("/check-user", validateUser.validateRequest(userSchema_1.userSchema), checkUserController.checkUser);
-validateRouter.get("/check-location", validateLocation.validateLocation, accessFromLocationController.accessFromLocation);
-validateRouter.get("/check-query", validateQuery.validateQuery, queriedDataController.queriedData);
-validateRouter.post("/register", dynamically.dynamicValidator, registerUserController.registerUser);
-validateRouter.post("/check-login", rateLimitting.applyRateLimiter, dynamically.dynamicValidator, loginUserController.loginUser);
+validateRouter.post("/check-user", validateUser.validateRequest(userSchema_1.userSchema), controller_4_1.default.checkUser);
+validateRouter.get("/check-location", validateLocation.validateLocation, controller_4_1.default.accessFromLocation);
+validateRouter.get("/check-query", validateQuery.validateQuery, controller_4_1.default.queriedData);
+validateRouter.post("/register", dynamically.dynamicValidator, controller_4_1.default.registerUser);
+validateRouter.post("/check-login", rateLimitting.applyRateLimiter, dynamically.dynamicValidator, controller_4_1.default.loginUser);
 exports.default = validateRouter;
 //# sourceMappingURL=app.js.map

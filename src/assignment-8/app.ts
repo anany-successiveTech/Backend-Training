@@ -5,11 +5,11 @@
 // 3. Implement seed scripts to store a list of playing countries and save records in the database.
 
 import express from "express";
-import { CountryDataSeeder } from "./controller8";
+import CountryData from "./controller8";
 import { authenticationChecker } from "../middleware/authentication";
 const countryRouter = express.Router();
 
-const createCountry = new CountryDataSeeder();
+// const createCountry = new CountryDataSeeder();
 
-countryRouter.post("/seedCountry",authenticationChecker, createCountry.seedCountry);
+countryRouter.post("/seedCountry",authenticationChecker, CountryData.seedCountry);
 export default countryRouter;

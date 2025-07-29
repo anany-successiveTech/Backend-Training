@@ -10,52 +10,57 @@ console.log(JWT_SECRET);
 
 class RealUserService {
   signUp = async (reqData: AuthUser) => {
-  try {
-    const { email, firstName, lastName, password } = reqData;
+    try {
+      const { email, firstName, lastName, password, role} = reqData;
+      console.log(reqData, "This is the registeration details");
 
-    const existingUser = await realUser.findOne({ email });
-    console.log(existingUser, "checking db return");
+      const existingUser = await realUser.findOne({ email });
+      // console.log(existingUser, "checking db return");
 
-    if (existingUser) {
-      throw new Error("User already exist, try login");
+      if (existingUser) {
+        throw new Error("User already exist, try login");
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      console.log("Creating user with:", {
+        firstName,
+        lastName,
+        email,
+        password: hashedPassword,
+      });
+
+      const createdData = await realUser.create({
+        firstName,
+        lastName,
+        email,
+        password: hashedPassword,
+        role: role
+      });
+
+      return {
+        status: "User Registered successfully",
+        registeredData: {
+          id: createdData._id,
+          firstName: createdData.firstName,
+          lastName: createdData.lastName,
+          email: createdData.email,
+          role: createdData.role
+        },
+      };
+    } catch (err: any) {
+      // console.error("SIGNUP ERROR MESSAGE:", err.message);
+      // console.error("SIGNUP ERROR NAME:", err.name);
+      // console.error("SIGNUP ERROR DETAILS:", err.errors);
+      // console.error("FULL ERROR OBJECT:", err);
+
+      throw new Error(err.message || "Unknown signup error");
     }
+  };
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    console.log("👀 Creating user with:", {
-      firstName,
-      lastName,
-      email,
-      password: hashedPassword,
-    });
-
-    const createdData = await realUser.create({
-      firstName,
-      lastName,
-      email,
-      password: hashedPassword,
-    });
-
-    return {
-      status: "User Registered successfully",
-      registeredData: {
-        id: createdData._id,
-        firstName: createdData.firstName,
-        lastName: createdData.lastName,
-        email: createdData.email,
-      },
-    };
-  } catch (err: any) {
-    // console.error("SIGNUP ERROR MESSAGE:", err.message);
-    // console.error("SIGNUP ERROR NAME:", err.name);
-    // console.error("SIGNUP ERROR DETAILS:", err.errors);
-    // console.error("FULL ERROR OBJECT:", err);
-
-    throw new Error(err.message || "Unknown signup error");
-  }
-};
-
-  signIn = async (reqData: AuthUser): Promise<{
+  signIn = async (
+    reqData: AuthUser
+  ): Promise<{
     status: string;
     data: {
       token: string;
@@ -76,9 +81,13 @@ class RealUserService {
       throw new Error("Invalid password");
     }
 
-    const token = jwt.sign({ email, id: user._id }, JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      { email, id: user._id, role: user.role },
+      JWT_SECRET,
+      {
+        expiresIn: "3h",
+      }
+    );
 
     return {
       status: "User login successful",

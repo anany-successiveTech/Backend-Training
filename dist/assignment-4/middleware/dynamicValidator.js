@@ -10,7 +10,7 @@ class Dynamically {
         this.dynamicValidator = (req, res, next) => {
             try {
                 const routePath = req.path;
-                // console.log(routePath);
+                console.log("Route path ->>>>>>>>>>>>>>", routePath);
                 const schema = validationRules_1.default[routePath];
                 if (!schema) {
                     return next();
@@ -18,7 +18,7 @@ class Dynamically {
                 const { error } = schema.validate(req.body);
                 // console.log(error);
                 if (error) {
-                    console.log(error.message, "some error");
+                    // console.log(error.message, "some error");
                     return res.status(400).json({ error: error.message });
                 }
                 next();

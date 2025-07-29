@@ -7,9 +7,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // 2. Install MongoDB Compass on your local machine.
 // 3. Implement seed scripts to store a list of playing countries and save records in the database.
 const express_1 = __importDefault(require("express"));
-const controller8_1 = require("./controller8");
+const controller8_1 = __importDefault(require("./controller8"));
+const authentication_1 = require("../middleware/authentication");
 const countryRouter = express_1.default.Router();
-const createCountry = new controller8_1.CountryDataSeeder();
-countryRouter.post("/seedCountry", createCountry.seedCountry);
+// const createCountry = new CountryDataSeeder();
+countryRouter.post("/seedCountry", authentication_1.authenticationChecker, controller8_1.default.seedCountry);
 exports.default = countryRouter;
 //# sourceMappingURL=app.js.map

@@ -35,6 +35,12 @@ const validationRules: Record<string, Joi.ObjectSchema> = {
         "string.min": "Password must be at least 6 characters",
         "string.max": "Password cannot exceed 12 characters",
       }),
+      role: Joi.string()
+      .valid("admin", "user", "support")
+      .required()
+      .messages({
+        "any.only": "Role must be (admin, user, support)."
+      })
   }),
 
   "/signin": Joi.object({
