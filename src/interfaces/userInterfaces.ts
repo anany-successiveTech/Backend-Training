@@ -38,3 +38,11 @@ export enum UserRole {
   Admin = "admin",
   User = "user",
 }
+
+export interface IUser {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  role: string;
+}

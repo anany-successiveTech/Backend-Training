@@ -1,17 +1,19 @@
 import mongoose, { Schema } from "mongoose";
+import { IUser } from "../interfaces/userInterfaces";
+
 enum UserRole {
   Admin = "admin",
   Support = "support",
   User = "user",
 }
 
-export interface IUser {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  role: string;
-}
+// export interface IUser {
+//   email: string;
+//   password: string;
+//   firstName: string;
+//   lastName: string;
+//   role: string;
+// }
 
 const userSchema: Schema<IUser> = new Schema({
   firstName: {

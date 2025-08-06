@@ -1,5 +1,4 @@
 import express from "express";
-import mongoose from "mongoose";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import assignRouter from "./routes/assignments";
@@ -7,9 +6,13 @@ import customHeader from "./middleware/customHeader";
 import handleGlobalError from "./middleware/handleAllError";
 import errorRouter from "./routes/errorDemo";
 import requestLogger from "./middleware/requestLogger";
+import helmet from "helmet";
+import cors from "cors";
+import { connectDb } from "./db.config";
 dotenv.config();
 
 const app = express();
+app.use(helmet());
 const PORT = process.env.PORT || 3000;
 const MONGO_CONNECTION = process.env.MONGODB_CONNECTION_STRING as string;
 
@@ -17,6 +20,12 @@ app.set("trust proxy", true); // tells Express to trust the proxy and use the re
 
 // Middlewares
 
+app.use(
+  cors({
+    methods: ["PUT", "POST", "GET", "DELETE"],
+    allowedHeaders: ["Authorization", "Content-Type"],
+  })
+);
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -28,14 +37,9 @@ app.use("/error-demo", errorRouter);
 app.use(handleGlobalError);
 
 // Middleware ends
-mongoose
-  .connect(MONGO_CONNECTION)
-  .then(() => {
-    console.log(" MongoDB connection successfull");
-    app.listen(PORT, () => {
-      console.log(`Server running at http://localhost:${PORT}`);
-    });
-  })
-  .catch((err) => {
-    console.error("MongoDB connection error:", err);
+
+connectDb(MONGO_CONNECTION).then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
   });
+});

@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "description": "##  Introduction",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "ts-node-dev --respawn --transpile-only src/index.ts",
-    "start": "npx tsc && node dist/src/index.js",
-    "dev": "nodemon"
-  },
+ "scripts": {
+  "test": "echo \"Error: no test specified\" && exit 1",
+  "build": "ts-node-dev --respawn --transpile-only src/index.ts",
+  "start": "npx tsc && node dist/src/index.js",
+  "dev": "nodemon",
+  "seed": "ts-node src/seed.ts"
+},
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/anany-successiveTech/Backend-Training.git"
@@ -22,6 +24,7 @@
   "homepage": "https://github.com/anany-successiveTech/Backend-Training#readme",
   "dependencies": {
     "@types/cookie-parser": "^1.4.9",
+    "@types/faker": "^6.6.8",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/lodash": "^4.17.20",
     "bcrypt": "^6.0.0",
@@ -31,7 +34,9 @@
     "dotenv": "^17.2.0",
     "express": "^5.1.0",
     "express-rate-limit": "^8.0.1",
+    "faker": "^6.6.6",
     "geoip-lite": "^1.4.10",
+    "helmet": "^8.1.0",
     "http-status-code": "^2.1.0",
     "http-status-codes": "^2.3.0",
     "joi": "^17.13.3",
