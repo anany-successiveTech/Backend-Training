@@ -1,12 +1,16 @@
 import Country from "../../models/countries";
 class CountrySeeder {
   seedCountry = async (reqdata: string[]) => {
-    const contryData = await Country.create(reqdata);
-    return {
-      status: "country data created",
-      countries: "randomly added",
-      data: contryData,
-    };
+    try {
+      const contryData = await Country.create(reqdata);
+      return {
+        status: "country data created",
+        countries: "randomly added",
+        data: contryData,
+      };
+    } catch (error) {
+      throw new Error("Something went wrong");
+    }
   };
 }
 const seedCountries = new CountrySeeder();

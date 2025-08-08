@@ -9,6 +9,7 @@ import requestLogger from "./middleware/requestLogger";
 import helmet from "helmet";
 import cors from "cors";
 import { connectDb } from "./db.config";
+import orderController from "./assignment-13/controller";
 dotenv.config();
 
 const app = express();
@@ -18,6 +19,7 @@ const MONGO_CONNECTION = process.env.MONGODB_CONNECTION_STRING as string;
 
 app.set("trust proxy", true); // tells Express to trust the proxy and use the real client IP. (read more about it).
 
+orderController.createOrders();
 // Middlewares
 
 app.use(
