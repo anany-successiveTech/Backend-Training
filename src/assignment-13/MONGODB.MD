@@ -227,6 +227,74 @@ db.Order.aggregate([
 ![Output](outputs/Q-10.png);
 ---
 
+# Indexing and Performance
+
+## 1. Check indexes on the collection.
+```js
+db.orders.getIndexes();
+
+```
+![Output](outputs/QI-1.png);
+---
+
+## 2.​ Create an index on customerName. Run a query filtering by customerName and check performance using explain("executionStats").
+
+```js
+
+db.orders.createIndex({ customerName: 1 });
+
+db.orders.find({ customerName: "John Doe" }).explain("executionStats");
+
+```
+![Output](outputs/QI-2.png);
+---
+
+## 3.​ Create a compound index on status and orderDate. Run a query filtering by both and compare performance (before vs after).
+
+```js
+
+db.orders.find({
+  status: "Delivered",
+  orderDate: { $gte: ISODate("2025-03-01") }
+}).explain("queryPlanner");
+
+
+```
+![Output](outputs/QI-3.png);
+---
+
+## 4.​ Create a text index on items.productName. Perform a text search for a product.
+
+```js
+
+db.orders.createIndex({ "items.productName": "text" });
+
+db.orders.find({ $text: { $search: "Laptop" } });
+
+```
+![Output](outputs/QI-4.png);
+---
+
+## 5.​ Drop an index and observe performance differenc.
+
+```js
+
+db.orders.dropIndex("status_1_orderDate_-1");
+
+db.orders.find({
+  status: "Delivered",
+  orderDate: { $gte: ISODate("2025-03-01") }
+});
+
+db.orders.find({
+  status: "Delivered",
+  orderDate: { $gte: ISODate("2025-03-01") }
+}).explain("executionStats");
+
+```
+![Output](outputs/QI-5.png);
+---
+
 ## 📝 Notes
 
 - Field names must match your actual schema.

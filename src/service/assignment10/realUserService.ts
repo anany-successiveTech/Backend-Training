@@ -13,7 +13,7 @@ class RealUserService {
     try {
       const { email, firstName, lastName, password, role} = reqData;
       // console.log(reqData, "This is the registeration details");
-
+      
       const existingUser = await realUser.findOne({ email });
       // console.log(existingUser, "checking db return");
 
@@ -23,7 +23,7 @@ class RealUserService {
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      // console.log("Creating user with:", {
+      // console.log("Creating user with:", {-
       //   firstName,
       //   lastName,
       //   email,
