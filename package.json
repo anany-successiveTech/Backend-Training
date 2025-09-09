@@ -1,0 +1,27 @@
+{
+  "name": "backend-training",
+  "version": "1.0.0",
+  "description": "##  Introduction",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anany-successiveTech/Backend-Training.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anany-successiveTech/Backend-Training/issues"
+  },
+  "homepage": "https://github.com/anany-successiveTech/Backend-Training#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "lodash": "^4.17.21",
+    "readline": "^1.3.0"
+  }
+}
