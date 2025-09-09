@@ -20,6 +20,7 @@ const MONGO_CONNECTION = process.env.MONGODB_CONNECTION_STRING as string;
 app.set("trust proxy", true); // tells Express to trust the proxy and use the real client IP. (read more about it).
 
 orderController.createOrders();
+
 // Middlewares
 
 app.use(
@@ -27,9 +28,9 @@ app.use(
     methods: ["PUT", "POST", "GET", "DELETE"],
     allowedHeaders: ["Authorization", "Content-Type"],
   })
-);
+);         
 app.use(express.json());
-app.use(bodyParser.json());
+app.use(bodyParser.json()); 1
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(customHeader("Assignment-app", "Backend-training"));
 app.use(requestLogger);

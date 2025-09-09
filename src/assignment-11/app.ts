@@ -17,6 +17,3 @@ roleRouter.put("/edit-car", roleAccess("admin"), carController.updateCar);
 
 export default roleRouter;
 
-
-
-

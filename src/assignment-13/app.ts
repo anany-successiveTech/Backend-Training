@@ -10,9 +10,9 @@
 // 10. ​Calculate total quantity and total revenue per product (use $unwind and $group).
 
 import express from "express";
-// import orderController from "./controller";
+import orderController from "./controller";
 
 const orderSeedRouter = express.Router();
 
-// orderSeedRouter.get("/seed-orders", orderController.createOrders);
+orderSeedRouter.get("/seed-orders", orderController.showOrders);
 export default orderSeedRouter;

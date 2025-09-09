@@ -292,7 +292,7 @@ db.orders.find({
 }).explain("executionStats");
 
 ```
-![Output](outputs/QI-5.png);
+![Output](outputs/QI-5.png)
 ---
 
 ## 📝 Notes
