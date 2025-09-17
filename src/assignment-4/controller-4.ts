@@ -1,43 +1,46 @@
 import { Request, Response } from "express";
+import { StatusCodes } from "http-status-codes";
+import { successResponse, errorResponse } from  "../../utils/responseHandeller"
 
 export const creatUser = (req: Request, res: Response) => {
   try {
     const userData = req.body;
-    // Here we perform db logics but for now i am returning the userdata in response back to the client {postman}.
-    return res.status(201).json({
-      message: "User created successfully",
-      user: userData,
-    });
+    return successResponse(res, "User created successfully", userData, StatusCodes.CREATED);
   } catch (error) {
-    return res.status(500).json({
-      message: "Internal server error",
-    });
+    return errorResponse(res, "Internal server error", error, StatusCodes.INTERNAL_SERVER_ERROR);
   }
 };
 
 export const queriedData = (req: Request, res: Response) => {
   const { limit, page } = req.query;
 
-  res.json({
-    message: "Query parameters are valid",
-    limit,
-    page,
-  });
+  return successResponse(
+    res,
+    "Query parameters are valid",
+    { limit: String(limit), page: String(page) }
+  );
 };
 
 export const accessFromLocation = (req: Request, res: Response) => {
-  res.status(200).json({
-    message: "Access granted. You are allowed based on your location.",
-  });
+  return successResponse(res, "Access granted. You are allowed based on your location.");
 };
 
 export const registerUser = (req: Request, res: Response) => {
-  res.status(201).json({
-    message: "User registered successfully",
-    data: req.body,
-  });
+  try {
+    const { name, email, password } = req.body;
+    const user = { name, email, password };
+    return successResponse(res, "User registered successfully", user, StatusCodes.CREATED);
+  } catch (error) {
+    return errorResponse(res, "Failed to register user", error, StatusCodes.BAD_REQUEST);
+  }
 };
 
 export const loginUser = (req: Request, res: Response) => {
-  res.status(200).json({ message: "Login successful", data: req.body });
+  try {
+    const { email, password } = req.body;
+    const user = { email, password };
+    return successResponse(res, "Login successful", user);
+  } catch (error) {
+    return errorResponse(res, "Login failed", error, StatusCodes.UNAUTHORIZED);
+  }
 };

@@ -1,30 +1,42 @@
-// 10. Implement an error-handling middleware that captures errors thrown in the route handlers and sends an appropriate error response.
-
-import cookieParser from "cookie-parser";
 import express from "express";
-// import cors from "cors"
-import assignRouter from "./routes/assignmentRoutes.js";
-import errorHandler from "../middleware/errorHandling.js";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import bodyParser from "body-parser";
+import assignRouter from "./routes/assignments.js";
 import customHeader from "../middleware/customHeader.js";
 import noCache from "../middleware/clearCach.js";
+import handleGlobalError from "../middleware/handleAllError.js";
+import errorRouter from "./routes/errorDemo.js";
+import requestLogger from "../middleware/requestLogger.js";
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const MONGO_CONNECTION = process.env.MONGODB_CONNECTION_STRING as string;
 
-// app.use(cors());  Although we are not sending the resuests from the browser 
+// Middlewares
 app.use(express.json());
-app.use(cookieParser());
+// app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(noCache);
+app.use(customHeader("Assignment-app", "Backend-training"));
 
-// API structure for assignment routing
-// ---> /api/v1/assingmen-No.
-
-// This is a customHeader middleware, both req, res have headers.
-app.use(customHeader("Assignment-app", "Backend-tarining"));
-
+app.use(requestLogger);
 app.use("/api/v1", assignRouter);
-app.use(errorHandler);
+app.use("/error-demo", errorRouter);
 
-app.listen(PORT, () => {
-  console.log(`Server is running at port http://localhost:${PORT}`);
-});
+app.use(handleGlobalError);
+
+// MongoDB Connection Logic
+mongoose
+  .connect(MONGO_CONNECTION)
+  .then(() => {
+    console.log(" MongoDB connection successfull");
+    app.listen(PORT, () => {
+      console.log(`Server running at http://localhost:${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("MongoDB connection error:", err);
+  });
