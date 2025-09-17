@@ -4,7 +4,7 @@ import { faker } from "@faker-js/faker";
 import dotenv from "dotenv";
 import { SampleUser, RandomUser, SeedDataResponse } from "../../types/seedUser";
 import { StatusCodes } from "http-status-codes";
-import { successResponse, errorResponse } from "../../utils/responseHandeller"
+import { successResponse, errorResponse } from "../../utils/responseHandler";
 
 dotenv.config();
 
@@ -30,11 +30,21 @@ export const login = (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return errorResponse(res, "Missing email or password", {}, StatusCodes.BAD_REQUEST);
+      return errorResponse(
+        res,
+        "Missing email or password",
+        {},
+        StatusCodes.BAD_REQUEST
+      );
     }
 
     if (email !== user.email || password !== user.password) {
-      return errorResponse(res, "Invalid credentials", {}, StatusCodes.UNAUTHORIZED);
+      return errorResponse(
+        res,
+        "Invalid credentials",
+        {},
+        StatusCodes.UNAUTHORIZED
+      );
     }
 
     const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {
@@ -53,18 +63,31 @@ export const seedData = (req: Request, res: Response) => {
     const { generateLimit } = req.body;
 
     if (!generateLimit) {
-      return errorResponse(res, "generateLimit is required", {}, StatusCodes.BAD_REQUEST);
+      return errorResponse(
+        res,
+        "generateLimit is required",
+        {},
+        StatusCodes.BAD_REQUEST
+      );
     }
 
     const limit = Number(generateLimit);
 
     if (isNaN(limit) || limit < 1 || limit > 100) {
-      return errorResponse(res, "generateLimit must be a number between 1 and 100", {}, StatusCodes.BAD_REQUEST);
+      return errorResponse(
+        res,
+        "generateLimit must be a number between 1 and 100",
+        {},
+        StatusCodes.BAD_REQUEST
+      );
     }
 
-    const randomUsers: RandomUser[] = faker.helpers.multiple(createRandomUsers, {
-      count: limit,
-    });
+    const randomUsers: RandomUser[] = faker.helpers.multiple(
+      createRandomUsers,
+      {
+        count: limit,
+      }
+    );
 
     const result: SeedDataResponse = {
       message: "Data generated successfully!",
