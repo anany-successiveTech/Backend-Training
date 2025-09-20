@@ -4,9 +4,9 @@ import assignmentThreeRouter from "../assignment-3/app";
 import assignmentFourRouter from "../assignment-4/app";
 import assignmentEightRouter from "../assignment-8/app";
 import assignmentNineRouter from "../assignment-9/app";
-import assignmentTenRouter from "../assignment-10/app"
+import assignmentTenRouter from "../assignment-10/app";
 
-// There is nothing in assignment-1 which will requires routing.
+// There is nothing in assignment-1 which will require routing.
 
 const assignRouter = express.Router();
 
