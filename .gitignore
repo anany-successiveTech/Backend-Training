@@ -3,6 +3,7 @@
 # For node modules.
 node_modules/
 # For environment variables.
+# this is the dist folde
+
 .env
-# this is the dist folder
 dist/
