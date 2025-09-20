@@ -4,3 +4,4 @@
 node_modules/
 # For environment variables.
 .env
+dist/
