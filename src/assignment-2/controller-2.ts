@@ -1,4 +1,4 @@
-import mockDataList from "./mockData.js";
+import mockDataList from "./mockData";
 import { Request, Response } from "express";
 
 export const getUserData = (req: Request, res: Response) => {

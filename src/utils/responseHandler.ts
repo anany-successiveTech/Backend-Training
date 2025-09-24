@@ -1,12 +1,12 @@
 import { Response } from "express";
 
-export class HandleApiResponse extends Response {
-  statusCode: number;
-  constructor(status: number, message: string) {
-    super(message);
-    this.statusCode = status;
-  }
-}
+// export class HandleApiResponse extends Response {
+//   statusCode: number;
+//   constructor(status: number, message: string) {
+//     super(message);
+//     this.statusCode = status;
+//   }
+// }
 
 export const successResponse = (
   res: Response,
@@ -36,7 +36,7 @@ export const errorResponse = (
   statusCode: number = error.statusCode || 500
 ) => {
   const errorMessage = error?.message || String(error); // If there is an error it will return error, but it there is not error then it will return "undefined".
-
+  // console.error(error.stack);
   return res.status(statusCode).json({
     success: false,
     message,
