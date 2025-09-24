@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import validationRules from "../validationRules.js";
+import validationRules from "../validationRules";
 
 export class Dynamically {
   dynamicValidator = (req: Request, res: Response, next: NextFunction) => {

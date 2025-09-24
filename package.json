@@ -5,9 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+<<<<<<< HEAD
+    "build": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "start": "npx tsc && node dist/src/index.js",
+    "dev": "nodemon"
+=======
     "build": "tsc",
     "start": "node dist/src/index.js",
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts"
+>>>>>>> a0ac58ed24f7f078b0f9469f0a52abf854d174b9
   },
   "repository": {
     "type": "git",
@@ -48,6 +54,12 @@
     "@types/geoip-lite": "^1.4.4",
     "@types/http-status-codes": "^1.2.0",
     "@types/request-ip": "^0.0.41",
+<<<<<<< HEAD
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+=======
     "ts-node-dev": "^2.0.0"
+>>>>>>> a0ac58ed24f7f078b0f9469f0a52abf854d174b9
   }
 }

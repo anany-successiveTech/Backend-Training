@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import errorMessages from "../utils/errorMessage.js";
-import { HandleApiError } from "../utils/responseHandler.js";
+import errorMessages from "../utils/errorMessage";
+import { HandleApiError } from "../utils/responseHandler";
 
 const handleGlobalError = (
   err: HandleApiError,
@@ -11,6 +11,7 @@ const handleGlobalError = (
   const statusCode = err.statusCode || 500;
   const message =
     err.message || errorMessages[statusCode] || "Unexpected error";
+  console.error(err.stack);
   return res.status(statusCode).json({
     success: false,
     statusCode,
