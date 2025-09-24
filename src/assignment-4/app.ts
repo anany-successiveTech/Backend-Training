@@ -5,25 +5,69 @@
 
 import express from "express";
 import { userSchema } from "./userSchema.js";
-import validateRequest from "./middleware/validateUser.js";
+import { ValidateIncomingUser } from "./middleware/validateUser.js";
 import {
-  accessFromLocation,
-  creatUser,
-  loginUser,
-  queriedData,
-  registerUser,
+  LoginUserController,
+  RegisterUserController,
+  AccessFromLocationController,
+  QueriedDataController,
+  CheckUserController,
 } from "./controller-4.js";
-import validateQuery from "./middleware/validateQuery.js";
-import validateLocation from "./middleware/validateGeolocation.js";
-import dynamicValidator from "./middleware/dynamicValidator.js";
+import { ValidateLocation } from "./middleware/validateGeolocation.js";
+import { Dynamically } from "./middleware/dynamicValidator.js";
+import { ValidateIncomingQuery } from "./middleware/validateQuery.js";
+import { RateLimiter } from "../assignment-3/middleware/rateLimitter.js";
 
 const validateRouter = express.Router();
 
-validateRouter.post("/check-user", validateRequest(userSchema), creatUser);
-validateRouter.get("/check-location", validateLocation, accessFromLocation);
-validateRouter.get("/check-query", validateQuery, queriedData);
-validateRouter.post("/register", dynamicValidator, registerUser);
-validateRouter.post("/check-login", dynamicValidator, loginUser);
+/*
+    Structure ->>>
+    router.(
+    "end-point",
+    extra-checks ->> (rate-limitting, requestLogging from index.ts, etc.)
+     Middleware,
+     Controller
+    )
+*/
 
+const loginUserController = new LoginUserController();
+const checkUserController = new CheckUserController();
+const accessFromLocationController = new AccessFromLocationController();
+const registerUserController = new RegisterUserController();
+const queriedDataController = new QueriedDataController();
+
+const validateLocation = new ValidateLocation();
+const dynamically = new Dynamically();
+const validateQuery = new ValidateIncomingQuery();
+const validateUser = new ValidateIncomingUser();
+
+const rateLimitting = new RateLimiter();
+
+validateRouter.post(
+  "/check-user",
+  validateUser.validateRequest(userSchema),
+  checkUserController.checkUser
+);
+validateRouter.get(
+  "/check-location",
+  validateLocation.validateLocation,
+  accessFromLocationController.accessFromLocation
+);
+validateRouter.get(
+  "/check-query",
+  validateQuery.validateQuery,
+  queriedDataController.queriedData
+);
+validateRouter.post(
+  "/register",
+  dynamically.dynamicValidator,
+  registerUserController.registerUser
+);
+validateRouter.post(
+  "/check-login",
+  rateLimitting.applyRateLimiter,
+  dynamically.dynamicValidator,
+  loginUserController.loginUser
+);
 
 export default validateRouter;

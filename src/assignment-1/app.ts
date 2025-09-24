@@ -8,7 +8,7 @@
 // |   |-- math.js
 // 11. Using the Node.js `fs` module, save the aforementioned solution to a CSV file in the following manner
 
-import { add, sub, mult, div } from "../../lib/math.js"
+import { add, sub, mult, div } from "../lib/math"
 import readline from "readline";
 import fs from "fs";
 

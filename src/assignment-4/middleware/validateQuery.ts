@@ -1,23 +1,27 @@
+import { log } from "console";
 import { Request, Response, NextFunction } from "express";
 
-const validateQuery = (req: Request, res: Response, next: NextFunction) => {
-  const { limit, page } = req.query;
+export class ValidateIncomingQuery {
+  validateQuery = (req: Request, res: Response, next: NextFunction) => {
+    // console.log(`reached at the middleware!`);
 
-  if (!limit || !page) {
-    return res.status(400).json({
-      error: "Please provide 'limit' and 'page' query parameters.",
-    });
-  }
+    const { limit, page } = req.query;
+    console.log(limit, page);
 
-  if (isNaN(Number(limit))) {
-    return res.status(400).json({ error: "'limit' must be a number" });
-  }
+    if (!limit || !page) {
+      return res.status(400).json({
+        error: "Please provide 'limit' and 'page' query in parameters.",
+      });
+    }
 
-  if (isNaN(Number(page))) {
-    return res.status(400).json({ error: "'page' must be a number" });
-  }
+    if (isNaN(Number(limit))) {
+      return res.status(400).json({ error: "'limit' must be a number" });
+    }
 
-  next();
-};
-
-export default validateQuery;
+    if (isNaN(Number(page))) {
+      return res.status(400).json({ error: "'page' must be a number" });
+    }
+    next();
+    // console.log(`Middleware ended`)
+  };
+}

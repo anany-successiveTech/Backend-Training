@@ -1,43 +1,22 @@
 import { Request, Response, NextFunction } from "express";
+import { rateLimit } from "express-rate-limit";
 
-const rateLimiter = (limit: number, window: number) => {
-  const requests: Record<string, number[]> = {};
+export class RateLimiter {
+  private rateLimiter;
 
-  return (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const ip = req.ip;
+  constructor() {
+    this.rateLimiter = rateLimit({
+      windowMs: 60 * 1000, // we are only allowing 100 request in 1-min.
+      limit: 5, 
+      message: {
+        success: false,
+        message: "Too many requests, please try again later.",
+      },
+    });
+  }
 
-      if (!ip) {
-        return res.status(400).json({ message: "Cannot identify IP address" });
-      }
-
-      const now = Date.now();
-
-      if (!requests[ip]) {
-        requests[ip] = [];
-      }
-
-      requests[ip] = requests[ip].filter(
-        (timestamp: number) => now - timestamp < window
-      );
-
-      if (requests[ip].length >= limit) {
-        return res
-          .status(429)
-          .json({ message: "Too many requests. Please try again later." });
-      }
-
-      requests[ip].push(now);
-      next();
-
-    } catch (error) {
-      console.error("Rate Limiter Error:", (error as Error).message);
-      next(error);
-      return res.status(500).json({
-        message: "Internal server error in rate limiter",
-      });
-    }
+  applyRateLimiter = (req: Request, res: Response, next: NextFunction) => {
+    console.log("⚡ Rate limiter triggered for:", req.ip);
+    return this.rateLimiter(req, res, next);
   };
-};
-
-export default rateLimiter;
+}
