@@ -3,5 +3,9 @@
 # For node modules.
 node_modules/
 # For environment variables.
+<<<<<<< HEAD
+.env
+=======
 .env
 dist/
+>>>>>>> 46f72a4cf0f0e5d0774b53ab3775cbc347afbbb7

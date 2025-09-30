@@ -1,11 +1,19 @@
-import { User, LoginResult, RegisteredUser, CheckUserResult } from "../../interfaces/userInterfaces";
-import jwt from "jsonwebtoken"
-import dotenv from "dotenv"
-dotenv.config();
-const JWT_SECRET = process.env.JWT_SECRET as string
+import {
+  User,
+  LoginResult,
+  RegisteredUser,
+  CheckUserResult,
+} from "../../interfaces/userInterfaces";
 
-export class UserService {
-  static checkUser(userData: User): CheckUserResult {
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const JWT_SECRET = process.env.JWT_SECRET as string;
+
+class UserService {
+   checkUser(userData: User): CheckUserResult {
     return {
       isValid: true,
       user: {
@@ -15,21 +23,24 @@ export class UserService {
     };
   }
 
-  static handleQueryParams(limit: number | undefined, page: number | undefined) {
+   handleQueryParams(limit?: number, page?: number) {
     return {
-      limit: limit,
-      page: page,
+      limit: limit ?? 10,
+      page: page ?? 1,
     };
   }
 
-  static checkLocationAccess(): string {
+   checkLocationAccess(): string {
     return "Access granted. You are allowed based on your location.";
   }
 
-  static registerUser(name: string, email: string, password: string): RegisteredUser {
-    // db interaction is to be entered here (create).
+  registerUser(
+    name: string,
+    email: string,
+    password: string
+  ): RegisteredUser {
     return {
-      id: 1, 
+      id: 1,
       name,
       email,
       password,
@@ -37,13 +48,18 @@ export class UserService {
     };
   }
 
-  static loginUser(email: string, password: string): LoginResult {
-       const token = jwt.sign({email, password}, JWT_SECRET, {expiresIn: '1hr'})
+   loginUser(email: string, password: string): LoginResult {
+    const token = jwt.sign({ email, password }, JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
     return {
       email,
       password,
-      token: token,
+      token,
       message: "Login successful",
     };
   }
 }
+const UserServices = new UserService();
+export default UserServices;

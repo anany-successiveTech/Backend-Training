@@ -26,3 +26,10 @@ export interface CheckUserResult {
     email: string;
   };
 }
+
+export interface AuthUser {
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+}
