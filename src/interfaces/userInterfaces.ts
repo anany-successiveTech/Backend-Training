@@ -26,3 +26,23 @@ export interface CheckUserResult {
     email: string;
   };
 }
+export interface AuthUser {
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+  role: string;
+}
+
+export enum UserRole {
+  Admin = "admin",
+  User = "user",
+}
+
+export interface IUser {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  role: string;
+}

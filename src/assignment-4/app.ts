@@ -4,19 +4,13 @@
 // 7.User Build a validation middleware that dynamically fetches validation rules from a configuration file. The rules should be applied based on the route being accessed.
 
 import express from "express";
-import { userSchema } from "./userSchema.js";
-import { ValidateIncomingUser } from "./middleware/validateUser.js";
-import {
-  LoginUserController,
-  RegisterUserController,
-  AccessFromLocationController,
-  QueriedDataController,
-  CheckUserController,
-} from "./controller-4.js";
-import { ValidateLocation } from "./middleware/validateGeolocation.js";
-import { Dynamically } from "./middleware/dynamicValidator.js";
-import { ValidateIncomingQuery } from "./middleware/validateQuery.js";
-import { RateLimiter } from "../assignment-3/middleware/rateLimitter.js";
+import { userSchema } from "./userSchema";
+import { ValidateIncomingUser } from "./middleware/validateUser";
+import  UserMethods  from "./controller-4"
+import { ValidateLocation } from "./middleware/validateGeolocation";
+import { Dynamically } from "./middleware/dynamicValidator";
+import { ValidateIncomingQuery } from "./middleware/validateQuery";
+import { RateLimiter } from "../assignment-3/middleware/rateLimitter";
 
 const validateRouter = express.Router();
 
@@ -30,12 +24,6 @@ const validateRouter = express.Router();
     )
 */
 
-const loginUserController = new LoginUserController();
-const checkUserController = new CheckUserController();
-const accessFromLocationController = new AccessFromLocationController();
-const registerUserController = new RegisterUserController();
-const queriedDataController = new QueriedDataController();
-
 const validateLocation = new ValidateLocation();
 const dynamically = new Dynamically();
 const validateQuery = new ValidateIncomingQuery();
@@ -46,28 +34,28 @@ const rateLimitting = new RateLimiter();
 validateRouter.post(
   "/check-user",
   validateUser.validateRequest(userSchema),
-  checkUserController.checkUser
+  UserMethods.checkUser
 );
 validateRouter.get(
   "/check-location",
   validateLocation.validateLocation,
-  accessFromLocationController.accessFromLocation
+  UserMethods.accessFromLocation
 );
 validateRouter.get(
   "/check-query",
   validateQuery.validateQuery,
-  queriedDataController.queriedData
+  UserMethods.queriedData
 );
 validateRouter.post(
   "/register",
   dynamically.dynamicValidator,
-  registerUserController.registerUser
+  UserMethods.registerUser
 );
 validateRouter.post(
   "/check-login",
   rateLimitting.applyRateLimiter,
   dynamically.dynamicValidator,
-  loginUserController.loginUser
+  UserMethods.loginUser
 );
 
 export default validateRouter;
