@@ -1,13 +1,5 @@
 import { Response } from "express";
 
-export class HandleApiResponse extends Response {
-  statusCode: number;
-  constructor(status: number, message: string) {
-    super(message);
-    this.statusCode = status;
-  }
-}
-
 export const successResponse = (
   res: Response,
   message: string,

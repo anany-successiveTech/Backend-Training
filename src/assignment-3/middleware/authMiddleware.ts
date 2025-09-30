@@ -11,16 +11,12 @@ interface JwtUserPayload extends JwtPayload {
   email: string;
 }
 
-declare global {
-  namespace Express {
-    interface Request {
+    interface ITokenRequest extends Request{
       user?: JwtUserPayload;
     }
-  }
-}
 
 export class AuthMiddleware {
-  authenticateUser = (req: Request, res: Response, next: NextFunction) => {
+  authenticateUser = (req: ITokenRequest, res: Response, next: NextFunction) => {
     const authHeader = req.headers.authorization;
     // console.log(authHeader, "authentication data");
 
